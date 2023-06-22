@@ -9,18 +9,24 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './book-create.component.html',
   styleUrls: ['./book-create.component.scss']
 })
-export class BookCreateComponent implements OnInit {
-  isCreate: boolean = false;
-  isUpdate: boolean = false;
-  book: any = {}; // Add the book property here
-  bookForm!: FormGroup;
 
+export class BookCreateComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) { }
+  ) {
+    this.today = new Date();
+    this.today.setHours(0, 0, 0, 0);
+  }
+
+  isCreate: boolean = false;
+  isUpdate: boolean = false;
+  book: any = {};
+  bookForm!: FormGroup;
+  today: Date;
+
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -39,6 +45,7 @@ export class BookCreateComponent implements OnInit {
       publishDate: [null, Validators.required]
     });
   }
+
   patchFormValues(): void {
     if (this.bookForm) {
       const utcDate = new Date(
@@ -57,19 +64,17 @@ export class BookCreateComponent implements OnInit {
   fetchBook(id: number): void {
     this.bookService.getBook(id).subscribe(
       (book) => {
-        console.log('Fetched publish date:', book.publishDate);
+        // console.log('Fetched publish date:', book.publishDate);
         this.book = book;
         console.log('===', this.book);
-
-        // Assuming the response is in the format: "2023-06-25T00:00:00.000Z"
-        const dateComponents = book.publishDate.substring(0, 10).split('-'); // Extract the date components
+        const dateComponents = book.publishDate.substring(0, 10).split('-');
         const year = parseInt(dateComponents[0]);
-        const month = parseInt(dateComponents[1]) - 1; // Months are zero-based
+        const month = parseInt(dateComponents[1]) - 1;
         // const day = parseInt(dateComponents[2]);
-        const day = parseInt(dateComponents[2]) + 1; // Increment the day by 1
+        const day = parseInt(dateComponents[2]) + 1;
 
         this.book.publishDate = new Date(year, month, day); // Set the date directly without UTC conversion
-        console.log('Updated publish date:', this.book.publishDate);
+        // console.log('Updated publish date:', this.book.publishDate);
 
         this.patchFormValues(); // Call the method to update form values
       },
@@ -84,11 +89,11 @@ export class BookCreateComponent implements OnInit {
       window.alert('All fields are required. Please fill them.');
       return;
     }
-  
+
     this.bookService.createBook(this.book).subscribe(
       (response) => {
         console.log('Book created successfully:', response);
-        const message = 'Book created successfully:\n\n';
+        const message = 'Book created successfully\n';
         window.alert(message);
 
       },
@@ -108,18 +113,13 @@ export class BookCreateComponent implements OnInit {
       }
     );
   }
-  
-  isFormEmpty(): boolean {
-    return (
-      !this.book.title ||
-      !this.book.pageCount ||
-      !this.book.description ||
-      !this.book.excerpt ||
-      !this.book.publishDate
-    );
-  }
-  
+
   updateBook(): void {
+    if (this.isFormEmpty()) {
+      window.alert('All fields are required. Please fill them.');
+      return;
+    }
+  
     const bookId = this.book.id;
     const publishDateBackup = this.book.publishDate; // Store the publishDate value temporarily
   
@@ -129,8 +129,12 @@ export class BookCreateComponent implements OnInit {
     this.bookService.updateBook(bookId, this.book).subscribe(
       (response) => {
         console.log('Book updated successfully:', response);
+  
         this.book.publishDate = new Date(response.publishDate);
         this.book.publishDate = publishDateBackup;
+  
+        const message = 'Book updated successfully\n';
+        window.alert(message);
       },
       (error) => {
         console.log('Error updating book:', error);
@@ -139,7 +143,17 @@ export class BookCreateComponent implements OnInit {
       }
     );
   }
-  
+
+  isFormEmpty(): boolean {
+    return (
+      !this.book.title ||
+      !this.book.pageCount ||
+      !this.book.description ||
+      !this.book.excerpt ||
+      !this.book.publishDate
+    );
+  }
+
   validateTitleInput(event: any) {
     const value = event.target.value;
     const maxLength = 30;
@@ -194,6 +208,7 @@ export class BookCreateComponent implements OnInit {
       }
     }
   }
+
   validateDescriptionInput(event: any) {
     const value = event.target.value;
     const maxLength = 50;

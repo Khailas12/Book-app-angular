@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
-import { SortEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss']
 })
+
 export class BookListComponent implements OnInit {
   books: any[] = [];
   filteredBooks: any[] = [];
   searchQuery: string = '';
-  claims: any[]= []; // Your claims data array
+  claims: any[] = [];
 
   constructor(
     private bookService: BookService,
@@ -45,20 +45,28 @@ export class BookListComponent implements OnInit {
   }
 
   deleteBook(id: number): void {
-    const confirmDelete = confirm('Are you sure you want to delete?');
-    if (confirmDelete) {
-      this.bookService.deleteBook(id).subscribe(
-        (response) => {
-          console.log('Book deleted successfully');
-          this.fetchBooks();
-        },
-        (error) => {
-          console.log('Error deleting book:', error);
+    this.bookService.getBook(id).subscribe(
+      (book) => {
+        const confirmDelete = confirm(`Are you sure you want to delete "${book.title}"?`);
+        if (confirmDelete) {
+          this.bookService.deleteBook(id).subscribe(
+            () => {
+              console.log('Book deleted successfully');
+              this.fetchBooks();
+              window.alert(`"${book.title}" deleted successfully`);
+            },
+            (error) => {
+              console.log('Error deleting book:', error);
+            }
+          );
         }
-      );
-    }
+      },
+      (error) => {
+        console.log('Error retrieving book:', error);
+      }
+    );
   }
-  
+
   search(): void {
     if (this.searchQuery.trim() !== '') {
       this.filteredBooks = this.books.filter((book) => {
@@ -76,7 +84,7 @@ export class BookListComponent implements OnInit {
       this.filteredBooks = this.books;
     }
   }
-  
+
   onSort(event: any) {
     const { field, order } = event;
     if (field) {

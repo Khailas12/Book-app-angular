@@ -45,7 +45,7 @@
           <div class="p-col-12">
             <div class="p-field">
               <label for="publishDate">Publish Date</label>
-              <p-calendar [(ngModel)]="book.publishDate" name="publishDate" dateFormat="yy-mm-ddTHH:MM:ss.lZ" #publishDate="ngModel"></p-calendar>
+              <p-calendar [(ngModel)]="book.publishDate" name="publishDate" dateFormat="yy-mm-ddTHH:MM:ss.lZ" [maxDate]="today" #publishDate="ngModel"></p-calendar>
               <div *ngIf="publishDate.invalid && (publishDate.dirty || publishDate.touched)" class="p-error">Publish Date is required</div>
             </div>
           </div>
@@ -55,7 +55,7 @@
               <button type="submit" pButton class="p-button-center">
                 {{ isUpdate ? 'Update' : 'Create' }}
               </button>
-              <button type="submit" pButton class="p-button-center p-button-secondary" (click)="goBackTolist()">Go back</button>
+              <button type="button" pButton class="p-button-center p-button-secondary" (click)="goBackTolist()">Go back</button>
             </div>
           </div>
         </div>
