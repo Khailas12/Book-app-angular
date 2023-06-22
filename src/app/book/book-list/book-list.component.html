@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true" [sortMode]="'multiple'" (sort)="onSort($event)">
+<p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [sortMode]="'multiple'" (sort)="onSort($event)" responsiveLayout="stack">
   <ng-template pTemplate="header">
     <tr>
       <th [pSortableColumn]="'title'">Title

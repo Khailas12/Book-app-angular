@@ -80,14 +80,17 @@ export class BookCreateComponent implements OnInit {
   }
 
   createBook(): void {
-    if (this.bookForm.invalid) {
-      this.bookForm.markAllAsTouched();
+    if (this.isFormEmpty()) {
+      window.alert('All fields are required. Please fill them.');
       return;
     }
-
+  
     this.bookService.createBook(this.book).subscribe(
       (response) => {
         console.log('Book created successfully:', response);
+        const message = 'Book created successfully:\n\n';
+        window.alert(message);
+
       },
       (error: HttpErrorResponse) => {
         console.log('Error creating book:', error);
@@ -105,7 +108,17 @@ export class BookCreateComponent implements OnInit {
       }
     );
   }
-
+  
+  isFormEmpty(): boolean {
+    return (
+      !this.book.title ||
+      !this.book.pageCount ||
+      !this.book.description ||
+      !this.book.excerpt ||
+      !this.book.publishDate
+    );
+  }
+  
   updateBook(): void {
     const bookId = this.book.id;
     const publishDateBackup = this.book.publishDate; // Store the publishDate value temporarily

@@ -52,11 +52,10 @@
           
           <div class="p-col-12">
             <div class="p-field">
-              <button type="submit" pButton class="p-button-center" [disabled]="!bookForm.valid">
+              <button type="submit" pButton class="p-button-center">
                 {{ isUpdate ? 'Update' : 'Create' }}
               </button>
-              <button type="Go Back" pButton class="p-button-center p-button-secondary" (click)="goBackTolist()">Go back</button>
-              
+              <button type="submit" pButton class="p-button-center p-button-secondary" (click)="goBackTolist()">Go back</button>
             </div>
           </div>
         </div>
