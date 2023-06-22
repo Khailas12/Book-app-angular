@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
+import { SortEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-book-list',
@@ -75,5 +76,47 @@ export class BookListComponent implements OnInit {
     }
   }
   
+  onSort(event: any) {
+    const { field, order } = event;
+    if (field !== 'Action') {
+      this.filteredBooks.sort((book1, book2) => {
+        const value1 = this.getPropertyValue(book1, field);
+        const value2 = this.getPropertyValue(book2, field);
   
-}
+        if (value1 === value2) {
+          return 0;
+        }
+  
+        if (value1 === null || value1 === undefined) {
+          return order === -1 ? 1 : -1;
+        }
+  
+        if (value2 === null || value2 === undefined) {
+          return order === -1 ? -1 : 1;
+        }
+  
+        if (typeof value1 === 'string' && typeof value2 === 'string') {
+          return order === -1 ? value1.localeCompare(value2) : value2.localeCompare(value1);
+        }
+  
+        if (typeof value1 === 'number' && typeof value2 === 'number') {
+          return order === -1 ? value1 - value2 : value2 - value1;
+        }
+  
+        if (value1 instanceof Date && value2 instanceof Date) {
+          return order === -1 ? value1.getTime() - value2.getTime() : value2.getTime() - value1.getTime();
+        }
+  
+        return 0;
+      });
+    }
+  }
+  
+  getPropertyValue(obj: any, field: string): any {
+    if (field === 'publishDate') {
+      return new Date(obj[field]);
+    } else {
+      return obj[field];
+    }
+  }
+}  

@@ -8,10 +8,13 @@
   </div>
 </div>
 
-<p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true">
+<p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true" [sortMode]="'multiple'" (sort)="onSort($event)">
   <ng-template pTemplate="header">
     <tr>
-      <th *ngFor="let header of tableHeaders">{{ header }}</th>
+      <th *ngFor="let header of tableHeaders" [pSortableColumn]="header.toLowerCase()">
+        {{ header }}
+        <p-sortIcon [field]="header.toLowerCase()"></p-sortIcon>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-book>
