@@ -1,10 +1,10 @@
 <div class="button-container">
   <div class="search-container">
     <i class="pi pi-search" style="margin-right: 4px"></i>
-    <input type="text" pInputText size="50" placeholder="Search" [(ngModel)]="searchQuery" (input)="search()" style="width:auto">
+    <input type="text" pInputText size="50" placeholder="Search" [(ngModel)]="searchQuery" (input)="search()" style="width:350px">
   </div>
   <div class="create-container">
-    <p-button label="Create" (click)="create()" icon="pi pi-plus"></p-button>
+    <p-button label="Create" (click)="create()" styleClass="p-button-raised p-button-lg" icon="pi pi-plus"></p-button>
   </div>
 </div>
 
@@ -37,10 +37,10 @@
       <td>{{ book.excerpt }}</td>
       <td>{{ book.publishDate | date }}</td>
       <td>
-        <p-button label="Update" class="p-button-success" (click)="update(book.id)" icon="pi pi-file-edit"></p-button>
+        <p-button label="Update" styleClass="p-button-outlined" (click)="update(book.id)" icon="pi pi-file-edit"></p-button>
         <br>
         <br>
-        <p-button label="Delete" styleClass="p-button-danger" (click)="deleteBook(book.id)" icon="pi pi-trash"></p-button>
+        <p-button label="Delete" styleClass="p-button-outlined p-button-danger" (click)="deleteBook(book.id)" icon="pi pi-trash"></p-button>
       </td>
     </tr>
   </ng-template>
