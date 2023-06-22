@@ -22,10 +22,10 @@
       <td>{{ book.excerpt }}</td>
       <td>{{ book.publishDate | date }}</td>
       <td>
-        <p-button label="Update" class="p-button-success" (click)="update(book.id)"></p-button>
+        <p-button label="Update" class="p-button-success" (click)="update(book.id)" icon="pi pi-file-edit"></p-button>
         <br>
         <br>
-        <p-button label="Delete" styleClass="p-button-danger" (click)="deleteBook(book.id)"></p-button>
+        <p-button label="Delete" styleClass="p-button-danger" (click)="deleteBook(book.id)" icon="pi pi-trash"></p-button>
       </td>
     </tr>
   </ng-template>

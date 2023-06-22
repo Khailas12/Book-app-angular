@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { BookService } from 'src/app/services/book.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -18,7 +18,8 @@ export class BookCreateComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -216,5 +217,8 @@ export class BookCreateComponent implements OnInit {
     }
   }
 
+  goBackTolist(): void {
+    this.router.navigate(['book/list']);
+  }
 }
 
