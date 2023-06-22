@@ -11,10 +11,22 @@
 <p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true" [sortMode]="'multiple'" (sort)="onSort($event)">
   <ng-template pTemplate="header">
     <tr>
-      <th *ngFor="let header of tableHeaders" [pSortableColumn]="header.toLowerCase()">
-        {{ header }}
-        <p-sortIcon [field]="header.toLowerCase()"></p-sortIcon>
+      <th [pSortableColumn]="'title'">Title
+        <p-sortIcon [field]="'title'"></p-sortIcon>
       </th>
+      <th [pSortableColumn]="'description'">Description
+        <p-sortIcon [field]="'description'"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'pageCount'">Page Count
+        <p-sortIcon [field]="'pageCount'"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'excerpt'">Excerpt
+        <p-sortIcon [field]="'excerpt'"></p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'publishDate'">Publish Date
+        <p-sortIcon [field]="'publishDate'"></p-sortIcon>
+      </th>
+      <th>Action</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-book>

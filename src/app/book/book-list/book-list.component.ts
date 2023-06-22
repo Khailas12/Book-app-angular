@@ -11,8 +11,8 @@ import { SortEvent } from 'primeng/api';
 export class BookListComponent implements OnInit {
   books: any[] = [];
   filteredBooks: any[] = [];
-  tableHeaders: string[] = ['Title', 'Description', 'Page Count', 'Excerpt', 'Publish Date', 'Action'];
   searchQuery: string = '';
+  claims: any[]= []; // Your claims data array
 
   constructor(
     private bookService: BookService,
@@ -35,6 +35,7 @@ export class BookListComponent implements OnInit {
     this.bookService.getBooks().subscribe(
       (response) => {
         this.books = response;
+        console.log('books----', this.books);
         this.filteredBooks = response;
       },
       (error) => {
@@ -78,45 +79,20 @@ export class BookListComponent implements OnInit {
   
   onSort(event: any) {
     const { field, order } = event;
-    if (field !== 'Action') {
-      this.filteredBooks.sort((book1, book2) => {
-        const value1 = this.getPropertyValue(book1, field);
-        const value2 = this.getPropertyValue(book2, field);
-  
-        if (value1 === value2) {
-          return 0;
-        }
-  
-        if (value1 === null || value1 === undefined) {
-          return order === -1 ? 1 : -1;
-        }
-  
-        if (value2 === null || value2 === undefined) {
-          return order === -1 ? -1 : 1;
-        }
-  
-        if (typeof value1 === 'string' && typeof value2 === 'string') {
-          return order === -1 ? value1.localeCompare(value2) : value2.localeCompare(value1);
-        }
-  
-        if (typeof value1 === 'number' && typeof value2 === 'number') {
-          return order === -1 ? value1 - value2 : value2 - value1;
-        }
-  
-        if (value1 instanceof Date && value2 instanceof Date) {
-          return order === -1 ? value1.getTime() - value2.getTime() : value2.getTime() - value1.getTime();
-        }
-  
-        return 0;
+    if (field) {
+      this.claims.sort((claim1, claim2) => {
+        const value1 = this.getPropertyValue(claim1, field);
+        const value2 = this.getPropertyValue(claim2, field);
+        return this.compareValues(value1, value2, order);
       });
     }
   }
-  
+
+  compareValues(value1: any, value2: any, order: number): number {
+    return order * (value1.localeCompare(value2));
+  }
+
   getPropertyValue(obj: any, field: string): any {
-    if (field === 'publishDate') {
-      return new Date(obj[field]);
-    } else {
-      return obj[field];
-    }
+    return obj[field];
   }
 }  
