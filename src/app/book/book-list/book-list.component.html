@@ -1,10 +1,11 @@
-<div class="create-button-container">
-  <p-button label="Create" (click)="create()"></p-button>
-</div>
-
-<div style="text-align: right">
-  <i class="pi pi-search" ></i>
-  <input type="text" pInputText size="50" placeholder="Search" [(ngModel)]="searchQuery" (input)="search()" style="width:auto">
+<div class="button-container">
+  <div class="search-container">
+    <i class="pi pi-search" style="margin-right: 4px"></i>
+    <input type="text" pInputText size="50" placeholder="Search" [(ngModel)]="searchQuery" (input)="search()" style="width:auto">
+  </div>
+  <div class="create-container">
+    <p-button label="Create" (click)="create()" icon="pi pi-plus"></p-button>
+  </div>
 </div>
 
 <p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true">
