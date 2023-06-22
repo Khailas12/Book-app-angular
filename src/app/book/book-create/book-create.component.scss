@@ -1,0 +1,15 @@
+
+
+.p-grid .p-col-12:not(:last-child) {
+margin-bottom: 2rem; /* Increase the value to add more space */
+}
+.p-field button {
+    margin-top: 1rem;
+  }
+  
+  .p-button-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

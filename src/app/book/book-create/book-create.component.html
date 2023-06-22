@@ -1,0 +1,62 @@
+<div class="p-grid p-justify-center p-align-start" style="height: 100vh">
+  <div class="p-col-12 p-md-8 p-lg-6 p-xl-4">
+    <p-card>
+      <h2>{{ isUpdate ? 'Update Book' : 'Create Book' }}</h2>
+      <form (ngSubmit)="isUpdate ? updateBook() : createBook()" class="p-fluid" #bookForm="ngForm">
+        <div class="p-grid p-dir-col">
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="title">Title</label>
+              <input type="text" pInputText id="title" [(ngModel)]="book.title" name="title" required #title="ngModel"
+                     (input)="validateTitleInput($event)">
+              <div *ngIf="title.invalid && (title.dirty || title.touched)" class="p-error">Title is required</div>
+              <div id="error-message" class="p-error"></div>
+            </div>
+            
+          </div>
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="pageCount">Page Count</label>
+              <input type="text" pInputText id="pageCount" [(ngModel)]="book.pageCount" name="pageCount" required #pageCount="ngModel" (input)="validateNumberInput($event)">
+              <div *ngIf="pageCount.invalid && (pageCount.dirty || pageCount.touched)" class="p-error">Page Count is required</div>
+              <div id="page-error-message" class="p-error"></div>
+            </div>
+          </div>
+          
+          <div class="p-col-12">
+            <div class="p-field">
+              <label for="description">Description</label>
+              <input type="text" pInputText id="description" [(ngModel)]="book.description" name="description" required #description="ngModel" (input)="validateDescriptionInput($event)">
+              <div *ngIf="description.invalid && (description.dirty || description.touched)" class="p-error">Description is required</div>
+              <div id="description-error" class="p-error"></div> 
+            </div>
+          </div>
+          
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="excerpt">Excerpt</label>
+              <textarea rows="5" cols="30" pInputTextarea [autoResize]="true" id="excerpt" [(ngModel)]="book.excerpt" name="excerpt" required #excerpt="ngModel" (input)="validateExcermptInput($event)"></textarea>
+              <div *ngIf="excerpt.invalid && (excerpt.dirty || excerpt.touched)" class="p-error">Excerpt is required</div>
+              <div id="excerpt-error" class="p-error"></div>
+
+            </div>
+          </div>
+          
+          <div class="p-col-12">
+            <div class="p-field">
+              <label for="publishDate">Publish Date</label>
+              <p-calendar [(ngModel)]="book.publishDate" name="publishDate" dateFormat="yy-mm-ddTHH:MM:ss.lZ" #publishDate="ngModel"></p-calendar>
+              <div *ngIf="publishDate.invalid && (publishDate.dirty || publishDate.touched)" class="p-error">Publish Date is required</div>
+            </div>
+          </div>
+          
+          <div class="p-col-12">
+            <div class="p-field">
+              <button type="submit" pButton class="p-button-center" [disabled]="!bookForm.valid">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>
