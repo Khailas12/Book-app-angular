@@ -9,6 +9,7 @@ import { BookService } from 'src/app/services/book.service';
 })
 export class BookListComponent implements OnInit {
   books: any[] = [];
+  filteredBooks: any[] = [];
   tableHeaders: string[] = ['Title', 'Description', 'Page Count', 'Excerpt', 'Publish Date', 'Action'];
   searchQuery: string = '';
 
@@ -33,6 +34,7 @@ export class BookListComponent implements OnInit {
     this.bookService.getBooks().subscribe(
       (response) => {
         this.books = response;
+        this.filteredBooks = response;
       },
       (error) => {
         console.log('Error fetching books:', error);
@@ -56,13 +58,22 @@ export class BookListComponent implements OnInit {
   }
   
   search(): void {
-    this.bookService.searchBooks(this.searchQuery).subscribe(
-      (response: any) => {
-        this.books = response;
-      },
-      (error: any) => {
-        console.log('Error searching books:', error);
-      }
-    );
+    if (this.searchQuery.trim() !== '') {
+      this.filteredBooks = this.books.filter((book) => {
+        const searchTerm = this.searchQuery.toLowerCase();
+        const publishDateString = new Date(book.publishDate).toString().toLowerCase();
+        return (
+          book.title.toLowerCase().includes(searchTerm) ||
+          book.description.toLowerCase().includes(searchTerm) ||
+          book.pageCount.toString().includes(searchTerm) ||
+          book.excerpt.toLowerCase().includes(searchTerm) ||
+          publishDateString.includes(searchTerm)
+        );
+      });
+    } else {
+      this.filteredBooks = this.books;
+    }
   }
+  
+  
 }

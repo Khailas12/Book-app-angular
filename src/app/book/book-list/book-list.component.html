@@ -1,27 +1,31 @@
-<p-button label="Create" (click)="create()"></p-button>
+<div class="create-button-container">
+  <p-button label="Create" (click)="create()"></p-button>
+</div>
 
+<div style="text-align: right">
+  <i class="pi pi-search" ></i>
+  <input type="text" pInputText size="50" placeholder="Search" [(ngModel)]="searchQuery" (input)="search()" style="width:auto">
+</div>
 
-<p-table [value]="books" [paginator]="true" [rows]="10" [responsive]="true">
-    <ng-template pTemplate="header">
-      <tr>
-        <th *ngFor="let header of tableHeaders">{{ header }}</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-book>
-      <tr>
-        <td>{{ book.title }}</td>
-        <td>{{ book.description }}</td>
-        <td>{{ book.pageCount }}</td>
-        <td>{{ book.excerpt }}</td>
-        <td>{{ book.publishDate | date }}</td>
-        <td>
-          <p-button label="Update" class="p-button-success" (click)="update(book.id)"></p-button>
-          <br>
-          <br>
-          <p-button label="Delete" styleClass="p-button-danger" (click)="deleteBook(book.id)"></p-button>
-        </td>
-        
-      </tr>
-    </ng-template>
-  </p-table>
-  
+<p-table [value]="filteredBooks" [paginator]="true" [rows]="10" [responsive]="true">
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngFor="let header of tableHeaders">{{ header }}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-book>
+    <tr>
+      <td>{{ book.title }}</td>
+      <td>{{ book.description }}</td>
+      <td>{{ book.pageCount }}</td>
+      <td>{{ book.excerpt }}</td>
+      <td>{{ book.publishDate | date }}</td>
+      <td>
+        <p-button label="Update" class="p-button-success" (click)="update(book.id)"></p-button>
+        <br>
+        <br>
+        <p-button label="Delete" styleClass="p-button-danger" (click)="deleteBook(book.id)"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
