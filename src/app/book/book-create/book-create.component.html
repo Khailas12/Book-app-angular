@@ -35,8 +35,8 @@
           <div class="p-col-12 p-md-6">
             <div class="p-field">
               <label for="excerpt">Excerpt</label>
-              <textarea rows="5" cols="30" pInputTextarea [autoResize]="true" id="excerpt" [(ngModel)]="book.excerpt" name="excerpt" required #excerpt="ngModel" (input)="validateExcermptInput($event)"></textarea>
-              <div *ngIf="excerpt.invalid && (excerpt.dirty || excerpt.touched)" class="p-error">Excerpt is required</div>
+              <textarea rows="5" cols="30" pInputTextarea [autoResize]="true" id="excerpt" [(ngModel)]="book.excerpt" name="excerpt" #excerpt="ngModel" (input)="validateExcermptInput($event)"></textarea>
+              <!-- <div *ngIf="excerpt.invalid && (excerpt.dirty || excerpt.touched)" class="p-error">Excerpt is required</div> -->
               <div id="excerpt-error" class="p-error"></div>
 
             </div>

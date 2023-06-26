@@ -149,7 +149,6 @@ export class BookCreateComponent implements OnInit {
       !this.book.title ||
       !this.book.pageCount ||
       !this.book.description ||
-      !this.book.excerpt ||
       !this.book.publishDate
     );
   }
